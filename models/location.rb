@@ -22,7 +22,7 @@ module Project
     attr_reader :id, :username, :latitude, :longitude, :date
 
     def description
-      decode_content(@content)
+      decode_content(@description)
     end
 
     def save

@@ -29,18 +29,14 @@ module Project
             routing.post do
               data = JSON.parse(routing.body.read)
               location = Location.new(data)
-
-              print(data)
-              print(location)
-
               if location.save
                 response.status = 201
                 { message: 'Location saved', id: location.id }.to_json
               else
                 routing.halt 400, { message: 'Could not save Location' }.to_json
               end
-            rescue
-                routing.halt 400, { message: 'Could not save Location' }.to_json
+            rescue StandardError
+              routing.halt 400, { message: 'Error: could not save Location invalid request' }.to_json
             end
           end
         end
