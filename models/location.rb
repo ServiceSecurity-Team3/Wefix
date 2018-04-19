@@ -7,7 +7,7 @@ require 'rbnacl'
 module Project
   # Location model
   class Location
-    STORE_DIR << 'db/'
+    STORE_DIR = 'db/'.freeze
 
     # Create a new location data by passing in hash of data
     def initialize(new_file)
