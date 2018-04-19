@@ -7,7 +7,7 @@ require 'rbnacl'
 module Project
   # Location model
   class Location
-    STORE_DIR = 'db/'.freeze
+    STORE_DIR = 'db/'
 
     # Create a new location data by passing in hash of data
     def initialize(new_file)
@@ -28,7 +28,7 @@ module Project
     def save
       File.open(STORE_DIR + id + '.txt', 'w') do |file|
         file.write(to_json)
-      true
+        true
       rescue StandardError
         false
       end
