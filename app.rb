@@ -29,9 +29,8 @@ module Project
             # GET api/v1/locations/:id
             routing.get String do |id|
               Location.find(id).to_json
-              rescue StandardError
-                routing.halt 404, { message: 'Location not found' }.to_json
-              end
+            rescue StandardError
+              routing.halt 404, { message: 'Location not found' }.to_json
             end
 
             # GET api/v1/locations

@@ -36,6 +36,7 @@ module Project
 
     def to_json(options = {})
       JSON({ type: 'location',
+             id: @id,
              username: @username,
              latitude: @latitude,
              longitude: @longitude,
