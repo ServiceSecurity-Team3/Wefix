@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '2.5.1'
+
 # Web API
 gem 'json'
 gem 'puma'
