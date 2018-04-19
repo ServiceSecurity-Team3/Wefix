@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'roda'
 require 'json'
 require 'base64'
@@ -24,16 +26,14 @@ module Project
       routing.on 'api' do
         routing.on 'v1' do
           routing.on 'locations' do
-
             # GET api/v1/locations/:id
             routing.get String do |id|
               Location.find(id).to_json
               rescue StandardError
                 routing.halt 404, { message: 'Location not found' }.to_json
               end
-              #location = Location.where("id = #{params[:id]}").first
-
             end
+
             # GET api/v1/locations
             routing.get do
               output = { location_ids: Location.all }
@@ -44,18 +44,14 @@ module Project
             routing.post do
               data = JSON.parse(routing.body.read)
               location = Location.new(data)
-
-              print(data)
-              print(location)
-
               if location.save
                 response.status = 201
                 { message: 'Location saved', id: location.id }.to_json
               else
                 routing.halt 400, { message: 'Could not save Location' }.to_json
               end
-            rescue
-                routing.halt 400, { message: 'Could not save Location' }.to_json
+            rescue StandardError
+              routing.halt 400, { message: 'Error: Invalid request' }.to_json
             end
           end
         end
