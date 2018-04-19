@@ -49,7 +49,7 @@ module Project
 
     def self.find(find_id)
       document_file = File.read(STORE_DIR + find_id + '.txt')
-      Document.new JSON.parse(document_file)
+      Location.new JSON.parse(document_file)
     end
 
     def self.all
