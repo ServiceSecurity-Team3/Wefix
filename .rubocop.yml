@@ -4,6 +4,7 @@ AllCops:
   
 Metrics/BlockLength:
   Enabled: true
+  Max: 35
   Exclude:
     - spec/**/*
     - Rakefile

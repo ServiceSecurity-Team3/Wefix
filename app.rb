@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'roda'
 require 'json'
 require 'base64'
@@ -24,7 +26,6 @@ module Project
       routing.on 'api' do
         routing.on 'v1' do
           routing.on 'locations' do
-
             # GET api/v1/locations
             routing.get do
               output = { location_ids: Location.all }
@@ -42,7 +43,7 @@ module Project
                 routing.halt 400, { message: 'Could not save Location' }.to_json
               end
             rescue StandardError
-              routing.halt 400, { message: 'Error: could not save Location invalid request' }.to_json
+              routing.halt 400, { message: 'Error: Invalid request' }.to_json
             end
           end
         end
