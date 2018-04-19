@@ -26,7 +26,6 @@ module Project
       routing.on 'api' do
         routing.on 'v1' do
           routing.on 'locations' do
-            # GET api/v1/locations/:id
             routing.get String do |id|
               Location.find(id).to_json
             rescue StandardError
