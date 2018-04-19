@@ -28,11 +28,10 @@ module Project
     def save
       File.open(STORE_DIR + id + '.txt', 'w') do |file|
         file.write(to_json)
-      end
-
       true
-    rescue StandardError
-      false
+      rescue StandardError
+        false
+      end
     end
 
     def to_json(options = {})
