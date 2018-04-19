@@ -7,7 +7,7 @@ require 'yaml'
 require 'json'
 
 require_relative '../app'
-require_relative '../models/Location'
+require_relative '../models/location'
 
 def app
   Project::Api
