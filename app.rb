@@ -25,6 +25,15 @@ module Project
         routing.on 'v1' do
           routing.on 'locations' do
 
+            # GET api/v1/locations/:id
+            routing.get String do |id|
+              Location.find(id).to_json
+              rescue StandardError
+                routing.halt 404, { message: 'Location not found' }.to_json
+              end
+              #location = Location.where("id = #{params[:id]}").first
+
+            end
             # GET api/v1/locations
             routing.get do
               output = { location_ids: Location.all }
