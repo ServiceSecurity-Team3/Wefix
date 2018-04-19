@@ -1,55 +1,46 @@
-# frozen_string_literal: true
-
 require 'roda'
 require 'json'
 require 'base64'
 
-require_relative 'models/document'
+require_relative 'models/location'
 
 module Project
-  # Web controller for Credence API
+  # Web controller for Location API
   class Api < Roda
     plugin :environments
     plugin :halt
 
     configure do
-      Document.setup
+      Location.setup
     end
 
     route do |routing|
       response['Content-Type'] = 'application/json'
 
       routing.root do
-        { message: 'CredenceAPI up at /api/v1' }.to_json
+        { message: 'Location up at /api/v1' }.to_json
       end
 
       routing.on 'api' do
         routing.on 'v1' do
-          routing.on 'documents' do
-            # POST api/v1/documents/[ID]
-            routing.get String do |id|
-              Document.find(id).to_json
-            rescue StandardError
-              routing.halt 404, { message: 'Document not found' }.to_json
-            end
+          routing.on 'locations' do
 
-            # GET api/v1/documents
-            routing.get do
-              output = { document_ids: Document.all }
-              JSON.pretty_generate(output)
-            end
-
-            # POST api/v1/documents
+            # POST api/v1/locations
             routing.post do
-              new_data = JSON.parse(routing.body.read)
-              new_doc = Document.new(new_data)
+              data = JSON.parse(routing.body.read)
+              location = Location.new(data)
 
-              if new_doc.save
+              print(data)
+              print(location)
+
+              if location.save
                 response.status = 201
-                { message: 'Document saved', id: new_doc.id }.to_json
+                { message: 'Location saved', id: location.id }.to_json
               else
-                routing.halt 400, { message: 'Could not save document' }.to_json
+                routing.halt 400, { message: 'Could not save Location' }.to_json
               end
+            rescue
+                routing.halt 400, { message: 'Could not save Location' }.to_json
             end
           end
         end

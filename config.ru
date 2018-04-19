@@ -1,2 +1,2 @@
 require './app.rb'
-# run Credence::Api.freeze.app
+run Project::Api.freeze.app
