@@ -19,7 +19,7 @@ bundle install
 ## Test
 Run the test script:
 <pre>
-ruby spec/api_spec.rb
+ruby spec/location_api_spec.rb
 </pre>
 
 ## Execute
