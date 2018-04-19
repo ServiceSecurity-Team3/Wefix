@@ -25,6 +25,12 @@ module Project
         routing.on 'v1' do
           routing.on 'locations' do
 
+            # GET api/v1/locations
+            routing.get do
+              output = { location_ids: Location.all }
+              JSON.pretty_generate(output)
+            end
+
             # POST api/v1/locations
             routing.post do
               data = JSON.parse(routing.body.read)
