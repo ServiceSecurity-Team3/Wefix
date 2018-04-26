@@ -7,13 +7,11 @@ require 'yaml'
 require 'json'
 
 require_relative '../app'
-require_relative '../models/Location'
+require_relative '../models/init'
 
 def app
   Wefix::Api
 end
-
-DATA = YAML.safe_load File.read('db/seeds/location_seed.yml')
 
 describe 'Test Project Web API' do
   include Rack::Test::Methods

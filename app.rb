@@ -4,7 +4,7 @@ require 'roda'
 require 'json'
 require 'base64'
 
-require_relative 'models/location'
+require_relative 'models/init'
 
 module Wefix
   # Web controller for Location API
