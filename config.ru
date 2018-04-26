@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 
 require './app.rb'
-run Project::Api.freeze.app
+run Wefix::Api.freeze.app
