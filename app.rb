@@ -6,7 +6,7 @@ require 'base64'
 
 require_relative 'models/location'
 
-module Project
+module Wefix
   # Web controller for Location API
   class Api < Roda
     plugin :environments
