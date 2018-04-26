@@ -1,5 +1,5 @@
-# Location API
-API to store and retrieve location
+# Wefix API
+API to store and retrieve problem location
 
 ## Routes
 All routes return Json
