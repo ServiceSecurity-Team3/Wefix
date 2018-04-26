@@ -32,6 +32,7 @@ rackup
 
 ###Logo
 Logo link
-<pre>
-/ServiceSecurity-Team3/Wefix/blob/master/Assests/Logo.png?raw=true
-</pre>
+<p align="center">
+  <img src="/ServiceSecurity-Team3/Wefix/blob/master/Assests/Logo.png?raw=true" width="350"/>
+  
+</p>
