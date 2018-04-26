@@ -23,16 +23,15 @@ ruby spec/location_api_spec.rb
 </pre>
 
 ## Execute
-
-## Assests
 Run this API using:
 <pre>
 rackup
 </pre>
 
-###Logo
+## Assests
+## Logo
 Logo link
 <p align="center">
-  <img src="/ServiceSecurity-Team3/Wefix/blob/master/Assests/Logo.png?raw=true" width="350"/>
+  <img src="/ServiceSecurity-Team3/Wefix/blob/master/Assests/Logo.png" width="350"/>
   
 </p>
