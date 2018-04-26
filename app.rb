@@ -47,7 +47,7 @@ module Wefix
                 # POST api/v1/groups/[ID]/problems
                 routing.post do
                   new_data = JSON.parse(routing.body.read)
-                  group = Group.first(id: proj_id)
+                  group = Group.first(id: group_id)
                   new_doc = group.add_problem(new_data)
 
                   if new_doc

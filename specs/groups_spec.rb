@@ -23,7 +23,7 @@ describe 'Test Group Handling' do
   it 'HAPPY: should be able to get details of a single group' do
     existing_grp = DATA[:groups][1]
     Wefix::Group.create(existing_grp).save
-    id = Wefixe::Group.first.id
+    id = Wefix::Group.first.id
 
     get "/api/v1/groups/#{id}"
     _(last_response.status).must_equal 200
@@ -52,6 +52,6 @@ describe 'Test Group Handling' do
 
     _(created['id']).must_equal grp.id
     _(created['name']).must_equal existing_grp['name']
-    _(created['repo_url']).must_equal existing_grp['repo_url']
+    _(created['description']).must_equal existing_grp['description']
   end
 end

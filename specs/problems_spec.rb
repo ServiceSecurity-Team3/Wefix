@@ -9,7 +9,7 @@ describe 'Test Problem Handling' do
     wipe_database
 
     DATA[:groups].each do |group_data|
-      Credence::Groups.create(group_data)
+      Wefix::Group.create(group_data)
     end
   end
 
@@ -23,7 +23,7 @@ describe 'Test Problem Handling' do
     _(last_response.status).must_equal 200
 
     result = JSON.parse last_response.body
-    _(result['data'].count).must_equal 2
+    _(result['data'].count).must_equal 3
   end
 
   it 'HAPPY: should be able to get details of a single problem' do
@@ -35,8 +35,8 @@ describe 'Test Problem Handling' do
     _(last_response.status).must_equal 200
 
     result = JSON.parse last_response.body
-    _(result['data']['attributes']['id']).must_equal doc.id
-    _(result['data']['attributes']['filename']).must_equal doc_data['filename']
+    _(result['data']['attributes']['id']).must_equal prob.id
+    _(result['data']['attributes']['description']).must_equal prob_data['description']
   end
 
   it 'SAD: should return error if unknown problem requested' do
@@ -52,15 +52,17 @@ describe 'Test Problem Handling' do
 
     req_header = { 'CONTENT_TYPE' => 'application/json' }
     post "api/v1/groups/#{grp.id}/problems",
-         doc_data.to_json, req_header
+    prob_data.to_json, req_header
     _(last_response.status).must_equal 201
     _(last_response.header['Location'].size).must_be :>, 0
 
     created = JSON.parse(last_response.body)['data']['data']['attributes']
     prob = Wefix::Problem.first
 
-    _(created['id']).must_equal doc.id
-    _(created['filename']).must_equal doc_data['filename']
-    _(created['description']).must_equal doc_data['description']
+    _(created['id']).must_equal prob.id
+    _(created['description']).must_equal prob_data['description']
+    _(created['latitude']).must_equal prob_data['latitude']
+    _(created['longitude']).must_equal prob_data['longitude']
+    _(created['date']).must_equal prob_data['date']
   end
 end
