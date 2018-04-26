@@ -20,7 +20,7 @@ module Wefix
 
       routing.on 'api' do
         routing.on 'v1' do
-          @api_root = "api/v1"
+          @api_root = 'api/v1'
 
           routing.on 'groups' do
             @proj_route = "#{@api_root}/groups"
@@ -41,7 +41,7 @@ module Wefix
                   output = { data: Group.first(id: group_id).problems }
                   JSON.pretty_generate(output)
                 rescue StandardError
-                  routing.halt 404, { message: 'Could not find problems' }
+                  routing.halt 404, message: 'Could not find problems'
                 end
 
                 # POST api/v1/groups/[ID]/problems

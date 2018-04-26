@@ -21,11 +21,11 @@ module Wefix
               description: description,
               latitude: latitude,
               longitude: longitude,
-              date: date,
+              date: date
             }
           },
           included: {
-            group: group,
+            group: group
           }
         }, options
       )

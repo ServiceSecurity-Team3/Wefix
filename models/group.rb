@@ -20,7 +20,7 @@ module Wefix
             attributes: {
               id: id,
               name: name,
-              description: description,
+              description: description
             }
           }
         }, options
