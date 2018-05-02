@@ -2,7 +2,7 @@
 
 require 'roda'
 require 'json'
-
+require_relative 'init'
 require_relative 'config/environments'
 require_relative 'models/init'
 

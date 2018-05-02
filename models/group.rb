@@ -2,7 +2,7 @@
 
 require 'json'
 require 'sequel'
-
+require_relative 'init'
 module Wefix
   # Models a Group
   class Group < Sequel::Model
