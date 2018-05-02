@@ -3,6 +3,8 @@
 require 'json'
 require 'sequel'
 require_relative 'init'
+
+
 module Wefix
   # Models a Group
   class Group < Sequel::Model
@@ -10,6 +12,8 @@ module Wefix
     plugin :association_dependencies, problems: :destroy
 
     plugin :timestamps
+    plugin :whitelist_security
+    set_allowed_columns :name, :description
 
     # rubocop:disable MethodLength
     def to_json(options = {})
