@@ -5,9 +5,10 @@ require 'sequel'
 require_relative 'init'
 
 module Wefix
-  # Models a secret Problem
-  class Problem < Sequel::Model
-    many_to_one :group
+  # Models a Group
+  class Group < Sequel::Model
+    one_to_many :problems
+    plugin :association_dependencies, problems: :destroy
 
     plugin :timestamps
 
@@ -16,17 +17,12 @@ module Wefix
       JSON(
         {
           data: {
-            type: 'problem',
+            type: 'group',
             attributes: {
               id: id,
+              name: name,
               description: description,
-              latitude: latitude,
-              longitude: longitude,
-              date: date
             }
-          },
-          included: {
-            group: group
           }
         }, options
       )
