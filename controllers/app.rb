@@ -59,7 +59,7 @@ module Wefix
                   end
 
                 rescue Sequel::MassAssignmentRestriction
-                  routing.halt, {message: 'Illegal Request' }.to_json
+                  routing.halt 400, { message: 'Illegal Request' }.to_json
                 rescue StandardError
                   routing.halt 500, { message: 'Database error' }.to_json
                 end
