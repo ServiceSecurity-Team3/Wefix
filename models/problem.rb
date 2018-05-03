@@ -11,11 +11,8 @@ module Wefix
 
     plugin :timestamps
     plugin :whitelist_security
-    set_allowed_columns :description 
-    plugin :uuid, field :id
-
-
-
+    set_allowed_columns :description
+    plugin :uuid, field: :id
     # rubocop:disable MethodLength
     def to_json(options = {})
       JSON(
