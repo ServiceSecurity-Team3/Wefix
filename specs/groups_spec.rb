@@ -35,33 +35,32 @@ describe 'Test Group Handling' do
 
   it 'SAD: should return error if unknown group requested' do
     get '/api/v1/groups/foobar'
-
     _(last_response.status).must_equal 404
   end
 
-  it 'HAPPY: should be able to create new groups' do
-    existing_grp = DATA[:groups][1]
+  describe 'Creating New Groups' do
+    before do
+      @req_header = { 'CONTENT_TYPE' => 'application/json' }
+      @group_data = DATA[:groups][1]
+    end
 
-    req_header = { 'CONTENT_TYPE' => 'application/json' }
-    post 'api/v1/groups', existing_grp.to_json, req_header
-    _(last_response.status).must_equal 201
-    _(last_response.header['Location'].size).must_be :>, 0
+    it 'HAPPY: should be able to create new groups' do
+      post 'api/v1/groups', @group_data.to_json, @req_header
+      _(last_response.status).must_equal 201
+      _(last_response.header['Location'].size).must_be :>, 0
+      created = JSON.parse(last_response.body)['data']['data']['attributes']
+      grp = Wefix::Group.first
+      _(created['id']).must_equal grp.id
+      _(created['name']).must_equal @group_data['name']
+      _(created['description']).must_equal @group_data['description']
+    end
 
-    created = JSON.parse(last_response.body)['data']['data']['attributes']
-    grp = Wefix::Group.first
-
-    _(created['id']).must_equal grp.id
-    _(created['name']).must_equal existing_grp['name']
-    _(created['description']).must_equal existing_grp['description']
-  end
-
-  it 'BAD: should not create project with illegal attributes' do
-    bad_data = @proj_data.clone
-    bad_data['created_at'] = '1900-01-01'
-    post 'api/v1/projects', bad_data.to_json, @req_header
-
-    _(last_response.status).must_equal 400
-    _(last_response.header['Location']).must_be_nil
-  end
+    it 'BAD: should not create groups with illegal attributes' do
+      bad_data = @group_data.clone
+      bad_data['created_at'] = '1900-01-01'
+      post 'api/v1/groups', bad_data.to_json, @req_header
+      _(last_response.status).must_equal 400
+      _(last_response.header['Location']).must_be_nil
+    end
   end
 end

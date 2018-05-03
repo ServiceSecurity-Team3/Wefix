@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 ENV['RACK_ENV'] = 'test'
 
 require 'minitest/autorun'
@@ -13,6 +11,6 @@ def wipe_database
   app.DB[:groups].delete
 end
 
-DATA = {}.freeze
+DATA = {}
 DATA[:problems] = YAML.safe_load File.read('db/seeds/problem_seeds.yml')
 DATA[:groups] = YAML.safe_load File.read('db/seeds/group_seeds.yml')

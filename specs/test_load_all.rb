@@ -4,8 +4,7 @@
 require 'rack/test'
 include Rack::Test::Methods
 
-require_relative '../app'
-require_relative '../models/init'
+require_relative '../init'
 
 def app
   Wefix::Api
