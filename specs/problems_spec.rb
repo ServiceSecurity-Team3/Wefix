@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+  
 require_relative './spec_helper'
 
 describe 'Test Problem Handling' do
@@ -46,6 +46,9 @@ describe 'Test Problem Handling' do
     _(last_response.status).must_equal 404
   end
 
+
+
+
   it 'HAPPY: should be able to create new problems' do
     grp = Wefix::Group.first
     prob_data = DATA[:problems][1]
@@ -64,5 +67,16 @@ describe 'Test Problem Handling' do
     _(created['latitude']).must_equal prob_data['latitude']
     _(created['longitude']).must_equal prob_data['longitude']
     _(created['date']).must_equal prob_data['date']
+  end
+
+    it 'BAD: should not create problems with illegal attributes' do 
+      bad_data = @prob_data.clone 
+      bad_data['created_at'] = '1900-01-01'
+      post "api/v1/groups/#{grp.id}/problems",
+          bad_data.to_json, @req_header
+
+      _(last_response.status).must_equal 400
+      _(last_response.header['Location']).must_be_nil
+     end
   end
 end

@@ -11,15 +11,15 @@ gem 'roda'
 
 # Configuration
 gem 'econfig'
-gem 'rake'
 gem 'pry'
+gem 'rake'
 
 # Security
 gem 'rbnacl-libsodium'
 
 # Database
-gem 'sequel'
 gem 'hirb'
+gem 'sequel'
 group :development, :test do
   gem 'sqlite3'
 end

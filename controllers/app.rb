@@ -58,6 +58,8 @@ module Wefix
                     routing.halt 400, 'Could not save the problem'
                   end
 
+                rescue Sequel::MassAssignmentRestriction
+                  routing.halt 400, { message: 'Illegal Request' }.to_json
                 rescue StandardError
                   routing.halt 500, { message: 'Database error' }.to_json
                 end
@@ -89,6 +91,8 @@ module Wefix
               response.status = 201
               response['Location'] = "#{@proj_route}/#{new_group.id}"
               { message: 'Group saved', data: new_group }.to_json
+            rescue Sequel::MassAssignmentRestriction
+              routing.halt 400, { message: 'Illegal Request' }.to_json
             rescue StandardError => error
               routing.halt 400, { message: error.message }.to_json
             end

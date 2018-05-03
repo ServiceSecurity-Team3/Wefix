@@ -54,4 +54,14 @@ describe 'Test Group Handling' do
     _(created['name']).must_equal existing_grp['name']
     _(created['description']).must_equal existing_grp['description']
   end
+
+  it 'BAD: should not create project with illegal attributes' do
+    bad_data = @proj_data.clone
+    bad_data['created_at'] = '1900-01-01'
+    post 'api/v1/projects', bad_data.to_json, @req_header
+
+    _(last_response.status).must_equal 400
+    _(last_response.header['Location']).must_be_nil
+  end
+  end
 end

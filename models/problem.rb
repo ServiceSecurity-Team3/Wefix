@@ -10,7 +10,9 @@ module Wefix
     many_to_one :group
 
     plugin :timestamps
-
+    plugin :whitelist_security
+    set_allowed_columns :description
+    plugin :uuid, field: :id
     # rubocop:disable MethodLength
     def to_json(options = {})
       JSON(
