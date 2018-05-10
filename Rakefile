@@ -37,6 +37,16 @@ namespace :db do
   Sequel.extension :migration
   app = Wefix::Api
 
+  task :setup do
+    require 'sequel'
+    Sequel.extension :migration
+  end
+
+  task :load_models do
+    require_relative 'models/init'
+    require_relative 'services/init'
+  end
+ 
   desc 'Run migrations'
   task :migrate => :print_env do
     puts 'Migrating database to latest'
@@ -62,6 +72,21 @@ namespace :db do
 
   desc 'Delete and migrate again'
   task reset: [:drop, :migrate]
+
+  task :reset_seeds => [:setup, :load_models] do
+    app.DB[:schema_seeds].delete if app.DB.tables.include?(:schema_seeds)
+    Wefix::Account.dataset.destroy
+  end
+
+  desc 'Seeds the development database'
+  task :seed => [:setup, :print_env, :load_models] do
+    Sequel::Seed.setup(:development)
+    Sequel.extension :seed
+    Sequel::Seeder.apply(app.DB, 'db/seeds')
+  end
+
+  desc 'Delete all data and reseed'
+  task reseed: [:reset_seeds, :seed]
 end
 
 namespace :newkey do
