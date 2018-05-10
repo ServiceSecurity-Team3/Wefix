@@ -9,8 +9,8 @@ Sequel.migration do
       foreign_key :group_id, table: :groups
 
       String :description, null: false
-      String :latitude, null: false
-      String :longitude, null: false
+      String :latitude_secure, null: false
+      String :longitude_secure, null: false
       String :date, null: false
 
       DateTime :created_at
