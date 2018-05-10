@@ -36,19 +36,13 @@ module Wefix
     def to_json(options = {})
       JSON(
         {
-          data: {
-            type: 'problem',
-            attributes: {
-              id: id,
-              description: description,
-              latitude: latitude,
-              longitude: longitude,
-              date: date
-            }
-          },
-          included: {
-            group: group
-          }
+          type: problem
+          id: id,
+          description: description,
+          latitude: latitude,
+          longitude: longitude,
+          date: date,
+          group: group
         }, options
       )
     end
