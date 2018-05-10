@@ -6,8 +6,16 @@ require_relative 'init'
 module Wefix
   # Models a Group
   class Group < Sequel::Model
+    many_to_one :owner, class: :'Wefix::Account'
+
+    many_to_many :collaborators,
+                 class: :'Credence::Account',
+                 join_table: :accounts_groups,
+                 left_key: :group_id, right_key: :collaborator_id
+
     one_to_many :problems
-    plugin :association_dependencies, problems: :destroy
+    plugin :association_dependencies
+    add_association_dependencies documents: :problems, collaborators: :nullify
 
     plugin :timestamps
     plugin :whitelist_security
@@ -17,14 +25,10 @@ module Wefix
     def to_json(options = {})
       JSON(
         {
-          data: {
-            type: 'group',
-            attributes: {
-              id: id,
-              name: name,
-              description: description
-            }
-          }
+          type: 'group',
+          id: id,
+          name: name,
+          description: description
         }, options
       )
     end

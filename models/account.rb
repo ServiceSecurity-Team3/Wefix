@@ -6,21 +6,21 @@ require 'json'
 module Credence
   # Models a registered account
   class Account < Sequel::Model
-    one_to_many :owned_projects, class: :'Credence::Project', key: :owner_id
-    plugin :association_dependencies, owned_projects: :destroy
+    one_to_many :owned_groups, class: :'Wefix::Group', key: :owner_id
+    plugin :association_dependencies, owned_groups: :destroy
 
     many_to_many :collaborations,
-                 class: :'Credence::Project',
-                 join_table: :accounts_projects,
-                 left_key: :collaborator_id, right_key: :project_id
+                 class: :'Wefix::Group',
+                 join_table: :accounts_groups,
+                 left_key: :collaborator_id, right_key: :group_id
 
     plugin :whitelist_security
     set_allowed_columns :username, :email, :password
 
     plugin :timestamps, update_on_create: true
 
-    def projects
-      owned_projects + collaborations
+    def groups
+      owned_groups + collaborations
     end
 
     def password=(new_password)
