@@ -32,7 +32,6 @@ module Wefix
       self.longitude_secure = SecureDB.encrypt(decimal)
     end
 
-    # rubocop:disable MethodLength
     def to_json(options = {})
       JSON(
         {
