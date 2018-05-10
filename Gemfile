@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 source 'https://rubygems.org'
 
 ruby '2.5.1'
@@ -15,12 +13,14 @@ gem 'pry'
 gem 'rake'
 
 # Security
-gem 'rbnacl-libsodium'
+gem 'rbnacl'
 
 # Database
-gem 'hirb'
 gem 'sequel'
+gem 'hirb'
+
 group :development, :test do
+  gem 'sequel-seed'
   gem 'sqlite3'
 end
 

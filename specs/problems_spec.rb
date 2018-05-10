@@ -13,37 +13,41 @@ describe 'Test Problem Handling' do
     end
   end
 
-  it 'HAPPY: should be able to get list of all problems' do
-    group = Wefix::Group.first
-    DATA[:problems].each do |prob|
-      group.add_problem(prob)
+  describe 'Getting Problem' do
+    before do
+      @grp = Wefix::Group.first
+      DATA[:problems].each do |prob_data|
+        Wefix::CreateProblemForGroup.call(
+          group_id: @grp.id,
+          problem_data: prob_data
+        )
+      end
     end
 
-    get "api/v1/groups/#{group.id}/problems"
-    _(last_response.status).must_equal 200
+    it 'HAPPY: should be able to get list of all problems' do
+      get "api/v1/groups/#{@grp.id}/problems"
+      _(last_response.status).must_equal 200
 
-    result = JSON.parse last_response.body
-    _(result['data'].count).must_equal 3
-  end
+      result = JSON.parse last_response.body
+      _(result['data'].count).must_equal DATA[:problems].count
+    end
 
-  it 'HAPPY: should be able to get details of a single problem' do
-    pd = DATA[:problems][1]
-    group = Wefix::Group.first
-    prob = group.add_problem(pd).save
+    it 'HAPPY: should be able to get details of a single problem' do
+      prob = Wefix::Problem.first
 
-    get "/api/v1/groups/#{group.id}/problems/#{prob.id}"
-    _(last_response.status).must_equal 200
+      get "/api/v1/groups/#{@grp.id}/problems/#{prob.id}"
+      _(last_response.status).must_equal 200
 
-    result = JSON.parse last_response.body
-    _(result['data']['attributes']['id']).must_equal prob.id
-    _(result['data']['attributes']['description']).must_equal pd['description']
-  end
+      result = JSON.parse last_response.body
+      _(result['id']).must_equal prob.id
+    end
 
-  it 'SAD: should return error if unknown problem requested' do
-    grp = Wefix::Group.first
-    get "/api/v1/groups/#{grp.id}/problems/foobar"
+    it 'SAD: should return error if unknown problem requested' do
+      group = Wefix::Group.first
+      get "/api/v1/groups/#{group.id}/problems/foobar"
 
-    _(last_response.status).must_equal 404
+      _(last_response.status).must_equal 404
+    end
   end
 
   describe 'Creating problems' do
@@ -60,7 +64,7 @@ describe 'Test Problem Handling' do
       _(last_response.status).must_equal 201
       _(last_response.header['Location'].size).must_be :>, 0
 
-      created = JSON.parse(last_response.body)['data']['data']['attributes']
+      created = JSON.parse(last_response.body)['data']
       prob = Wefix::Problem.first
 
       _(created['id']).must_equal prob.id

@@ -21,16 +21,16 @@ describe 'Test Group Handling' do
   end
 
   it 'HAPPY: should be able to get details of a single group' do
-    existing_grp = DATA[:groups][1]
-    Wefix::Group.create(existing_grp).save
+    group_data = DATA[:groups][1]
+    Wefix::Group.create(group_data).save
     id = Wefix::Group.first.id
 
     get "/api/v1/groups/#{id}"
     _(last_response.status).must_equal 200
 
     result = JSON.parse last_response.body
-    _(result['data']['attributes']['id']).must_equal id
-    _(result['data']['attributes']['name']).must_equal existing_grp['name']
+    _(result['id']).must_equal id
+    _(result['name']).must_equal group_data['name']
   end
 
   it 'SAD: should return error if unknown group requested' do
@@ -48,8 +48,10 @@ describe 'Test Group Handling' do
       post 'api/v1/groups', @group_data.to_json, @req_header
       _(last_response.status).must_equal 201
       _(last_response.header['Location'].size).must_be :>, 0
-      created = JSON.parse(last_response.body)['data']['data']['attributes']
+      
+      created = JSON.parse(last_response.body)['data']
       grp = Wefix::Group.first
+
       _(created['id']).must_equal grp.id
       _(created['name']).must_equal @group_data['name']
       _(created['description']).must_equal @group_data['description']
@@ -59,6 +61,7 @@ describe 'Test Group Handling' do
       bad_data = @group_data.clone
       bad_data['created_at'] = '1900-01-01'
       post 'api/v1/groups', bad_data.to_json, @req_header
+      
       _(last_response.status).must_equal 400
       _(last_response.header['Location']).must_be_nil
     end
