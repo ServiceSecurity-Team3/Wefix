@@ -7,10 +7,11 @@ require 'yaml'
 require_relative 'test_load_all'
 
 def wipe_database
-  app.DB[:problems].delete
-  app.DB[:groups].delete
+  Credence::Account.dataset.destroy
+  Credence::Group.dataset.destroy
 end
 
 DATA = {}
-DATA[:problems] = YAML.safe_load File.read('db/seeds/problem_seeds.yml')
-DATA[:groups] = YAML.safe_load File.read('db/seeds/group_seeds.yml')
+DATA[:accounts] = YAML.load File.read('db/seeds/accounts_seed.yml')
+DATA[:problems] = YAML.load File.read('db/seeds/problems_seed.yml')
+DATA[:groups] = YAML.load File.read('db/seeds/groups_seed.yml')
