@@ -16,7 +16,7 @@ ACCOUNTS_INFO = YAML.load_file("#{DIR}/accounts_seed.yml")
 OWNER_INFO = YAML.load_file("#{DIR}/owners_groups.yml")
 GROUP_INFO = YAML.load_file("#{DIR}/groups_seed.yml")
 PROBLEM_INFO = YAML.load_file("#{DIR}/problems_seed.yml")
-CONTRIB_INFO = YAML.load_file("#{DIR}/groups_collaborators.yml")
+CONTRIB_INFO = YAML.load_file("#{DIR}/groups_collaborators_seed.yml")
 
 def create_accounts
   ACCOUNTS_INFO.each do |account_info|

@@ -9,13 +9,13 @@ module Wefix
     many_to_one :owner, class: :'Wefix::Account'
 
     many_to_many :collaborators,
-                 class: :'Credence::Account',
+                 class: :'Wefix::Account',
                  join_table: :accounts_groups,
                  left_key: :group_id, right_key: :collaborator_id
 
     one_to_many :problems
     plugin :association_dependencies
-    add_association_dependencies documents: :problems, collaborators: :nullify
+    add_association_dependencies problems: :destroy, collaborators: :nullify
 
     plugin :timestamps
     plugin :whitelist_security

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'base64'
-require 'rbnacl/libsodium'
+require 'rbnacl'
 
 # Encrypt and Decrypt from Database
 class SecureDB
@@ -38,7 +38,7 @@ class SecureDB
 
   def self.new_salt
     Base64.strict_encode64(
-      RbNaCl::Random.random_bytes(RbNaClHash::PasswordHash::Scrypt::SALTBYTES)
+      RbNaCl::Random.random_bytes(RbNaCl::PasswordHash::SCrypt::SALTBYTES)
     )
   end
 

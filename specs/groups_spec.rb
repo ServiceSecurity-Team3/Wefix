@@ -22,7 +22,7 @@ describe 'Test Group Handling' do
 
   it 'HAPPY: should be able to get details of a single group' do
     group_data = DATA[:groups][1]
-    Wefix::Group.create(proj_data).save
+    Wefix::Group.create(group_data).save
     id = Wefix::Group.first.id
 
     get "/api/v1/groups/#{id}"
@@ -30,7 +30,7 @@ describe 'Test Group Handling' do
 
     result = JSON.parse last_response.body
     _(result['id']).must_equal id
-    _(result['name']).must_equal proj_data['name']
+    _(result['name']).must_equal group_data['name']
   end
 
   it 'SAD: should return error if unknown group requested' do

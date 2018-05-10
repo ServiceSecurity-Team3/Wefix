@@ -7,8 +7,8 @@ require 'yaml'
 require_relative 'test_load_all'
 
 def wipe_database
-  Credence::Account.dataset.destroy
-  Credence::Group.dataset.destroy
+  Wefix::Account.dataset.destroy
+  Wefix::Group.dataset.destroy
 end
 
 DATA = {}

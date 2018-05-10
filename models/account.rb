@@ -3,7 +3,7 @@
 require 'sequel'
 require 'json'
 
-module Credence
+module Wefix
   # Models a registered account
   class Account < Sequel::Model
     one_to_many :owned_groups, class: :'Wefix::Group', key: :owner_id
