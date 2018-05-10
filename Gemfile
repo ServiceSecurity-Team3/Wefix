@@ -13,7 +13,7 @@ gem 'pry'
 gem 'rake'
 
 # Security
-gem 'rbnacl-libsodium'
+gem 'rbnacl'
 
 # Database
 gem 'sequel'

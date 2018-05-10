@@ -36,7 +36,7 @@ module Wefix
     def to_json(options = {})
       JSON(
         {
-          type: problem
+          type: 'problem',
           id: id,
           description: description,
           latitude: latitude,
