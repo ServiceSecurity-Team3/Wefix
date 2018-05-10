@@ -48,7 +48,7 @@ describe 'Test Group Handling' do
       post 'api/v1/groups', @group_data.to_json, @req_header
       _(last_response.status).must_equal 201
       _(last_response.header['Location'].size).must_be :>, 0
-      
+
       created = JSON.parse(last_response.body)['data']
       grp = Wefix::Group.first
 
@@ -61,7 +61,7 @@ describe 'Test Group Handling' do
       bad_data = @group_data.clone
       bad_data['created_at'] = '1900-01-01'
       post 'api/v1/groups', bad_data.to_json, @req_header
-      
+
       _(last_response.status).must_equal 400
       _(last_response.header['Location']).must_be_nil
     end

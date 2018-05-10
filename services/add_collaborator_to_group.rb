@@ -7,7 +7,7 @@ module Wefix
       collaborator = Account.first(email: email)
       group = Group(id: group_id)
       return false if group_id.owner.id == collaborator.id
-      group_id.add_collaborator
+      group.add_collaborator
       collaborator
     end
   end

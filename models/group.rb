@@ -21,7 +21,6 @@ module Wefix
     plugin :whitelist_security
     set_allowed_columns :name, :description
 
-    # rubocop:disable MethodLength
     def to_json(options = {})
       JSON(
         {
@@ -32,6 +31,5 @@ module Wefix
         }, options
       )
     end
-    # rubocop:enable MethodLength
   end
 end
