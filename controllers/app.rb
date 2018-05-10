@@ -79,7 +79,9 @@ module Wefix
                 routing.post do
                   new_data = JSON.parse(routing.body.read)
                   group = Group.first(id: group_id)
-                  new_doc = group.add_problem(new_data)
+                  new_doc = CreateProblemForGroup.call(
+                    group_id: group_id, problem_data: new_data
+                  )
 
                   if new_doc
                     response.status = 201
