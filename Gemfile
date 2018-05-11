@@ -15,7 +15,7 @@ gem 'pry'
 gem 'rake'
 
 # Security
-gem 'rbnacl'
+gem 'rbnacl-libsodium'
 
 # Database
 gem 'hirb'

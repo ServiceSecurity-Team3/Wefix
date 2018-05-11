@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'base64'
-require 'rbnacl'
+require 'rbnacl/libsodium'
 
 # Encrypt and Decrypt from Database
 class SecureDB
