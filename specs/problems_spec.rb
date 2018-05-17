@@ -29,7 +29,7 @@ describe 'Test Problem Handling' do
       _(last_response.status).must_equal 200
 
       result = JSON.parse last_response.body
-      _(result['data'].count).must_equal DATA[:problems].count
+      _(result.count).must_equal DATA[:problems].count
     end
 
     it 'HAPPY: should be able to get details of a single problem' do

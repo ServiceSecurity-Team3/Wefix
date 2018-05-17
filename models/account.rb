@@ -37,7 +37,6 @@ module Wefix
       JSON(
         {
           type: 'account',
-          id: id,
           username: username,
           email: email
         }, options
