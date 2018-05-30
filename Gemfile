@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 ruby '2.5.1'
 
 # Web API
-gem 'roda'
-gem 'puma'
 gem 'json'
+gem 'puma'
+gem 'roda'
 
 # Configuration
 gem 'econfig'
@@ -17,8 +19,8 @@ gem 'pry'
 gem 'rbnacl-libsodium'
 
 # Database
-gem 'sequel'
 gem 'hirb'
+gem 'sequel'
 
 group :development, :test do
   gem 'sequel-seed'
@@ -28,7 +30,6 @@ end
 group :production do
   gem 'pg'
 end
-
 
 # Testing
 group :test do
