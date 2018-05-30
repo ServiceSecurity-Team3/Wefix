@@ -57,3 +57,4 @@ build-iPhoneSimulator/
 config/secrets.yml
 .bundle/
 .DS_Store
+sendgrid.env
