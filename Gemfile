@@ -41,6 +41,7 @@ end
 # Development
 group :development do
   gem 'rubocop'
+  gem 'sendgrid-ruby'
 end
 
 group :development, :test do
