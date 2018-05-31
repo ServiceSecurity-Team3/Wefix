@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# frozen_string_literal: true
+
 require 'roda'
 
 module Wefix
@@ -7,9 +9,17 @@ module Wefix
   class Api < Roda
     plugin :halt
     plugin :multi_route
+    plugin :request_headers
 
     def secure_request?(routing)
       routing.scheme.casecmp(Api.config.SECURE_SCHEME).zero?
+    end
+
+    def authenticated_account(headers)
+      return nil unless headers['AUTHORIZATION']
+      scheme, auth_token = headers['AUTHORIZATION'].split(' ')
+      account_payload = AuthToken.payload(auth_token)
+      scheme.match?(/^Bearer$/i) ? account_payload : nil
     end
 
     route do |routing|
@@ -17,8 +27,10 @@ module Wefix
       secure_request?(routing) ||
         routing.halt(403, { message: 'TLS/SSL Requested' }.to_json)
 
+      @auth_account = authenticated_account(routing.headers)
+
       routing.root do
-        { message: 'WefixAPI up at /api/v1' }.to_json
+        { message: 'Wefix API up at /api/v1' }.to_json
       end
 
       routing.on 'api' do
