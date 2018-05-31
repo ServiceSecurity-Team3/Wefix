@@ -56,10 +56,11 @@ module Wefix
 
       # GET api/v1/groups
       routing.get do
-        output = Group.all
-        JSON.pretty_generate(output)
+        account = Account.first(username: @auth_account['username'])
+        projects = account.projects
+        JSON.pretty_generate(groups)
       rescue StandardError
-        routing.halt 404, { message: 'Could not find groups' }.to_json
+        rrouting.halt 403, { message: 'Could not find projects' }.to_json
       end
 
       # POST api/v1/groups

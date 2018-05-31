@@ -18,6 +18,9 @@ gem 'pry'
 # Security
 gem 'rbnacl-libsodium'
 
+# Services
+gem 'http'
+
 # Database
 gem 'hirb'
 gem 'sequel'
