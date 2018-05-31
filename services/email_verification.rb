@@ -1,4 +1,4 @@
-frozen_string_literal: true
+# frozen_string_literal: true
 
 require 'http'
 
@@ -28,7 +28,6 @@ module Wefix
       END_EMAIL
     end
 
-    # rubocop:disable Metrics/MethodLength
     def send_email_verification(registration)
       HTTP.auth(
         "Bearer #{@config.SENDGRID_KEY}"
@@ -50,7 +49,6 @@ module Wefix
       raise(InvalidRegistration,
             'Could not send verification email; please check email address')
     end
-    # rubocop:enable Metrics/MethodLength
 
     def call(registration)
       raise(InvalidRegistration, 'Username already exists') unless
