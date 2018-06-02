@@ -3,7 +3,7 @@
 require 'base64'
 require 'rbnacl/libsodium'
 
-# Encrypt and Decrypt from Database
+# Security Primitives for Database
 class SecureDB
   extend Securable
 
@@ -28,12 +28,11 @@ class SecureDB
   end
 
   def self.hash_password(salt, pwd)
-    opslimit = 2**15
-    memlimit = 2**20
+    opslimit = 2**20
+    memlimit = 2**24
     digest_size = 64
-    digest = RbNaCl::PasswordHash.scrypt(
-      pwd, Base64.strict_decode64(salt), opslimit, memlimit, digest_size
-    )
+    digest = RbNaCl::PasswordHash.scrypt(pwd, Base64.strict_decode64(salt),
+                                         opslimit, memlimit, digest_size)
     Base64.strict_encode64(digest)
   end
 end
