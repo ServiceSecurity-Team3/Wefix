@@ -13,7 +13,7 @@ describe 'Test Group Handling' do
     Wefix::Group.create(DATA[:groups][0]).save
     Wefix::Group.create(DATA[:groups][1]).save
 
-    get 'api/v1/groups'
+    get 'api/v1/groups', @req_header
     _(last_response.status).must_equal 200
 
     result = JSON.parse last_response.body

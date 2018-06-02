@@ -40,3 +40,6 @@ Style/MixinUsage:
 Naming/MethodName:
   Exclude:
     - config/**/*
+
+Metrics/MethodLength:
+  Max: 20
