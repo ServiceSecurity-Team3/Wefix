@@ -2,6 +2,7 @@
 
 require 'base64'
 require 'rbnacl/libsodium'
+require_relative 'securable'
 
 # Security Primitives for Database
 class SecureDB
