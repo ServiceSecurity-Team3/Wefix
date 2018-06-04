@@ -40,7 +40,6 @@ module Wefix
           description: description,
           latitude: latitude,
           longitude: longitude,
-          date: date,
           group: group
         }, options
       )
