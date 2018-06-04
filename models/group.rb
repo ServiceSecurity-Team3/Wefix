@@ -21,14 +21,24 @@ module Wefix
     plugin :whitelist_security
     set_allowed_columns :name, :description
 
+    def to_h
+      {
+        type: 'group',
+        id: id,
+        name: name,
+        description: description
+      }
+    end
+
     def to_json(options = {})
-      JSON(
-        {
-          type: 'group',
-          id: id,
-          name: name,
-          description: description
-        }, options
+      JSON(to_h, options)
+    end
+
+    def full_details
+      to_h.merge(
+        owner: owner,
+        collaborators: collaborators,
+        problems: problems
       )
     end
   end

@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require 'base64'
 require 'rbnacl/libsodium'
 
+# Securable lib
 module Securable
   # Generate key for Rake tasks (typically not called at runtime)
   def generate_key
