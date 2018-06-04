@@ -71,7 +71,6 @@ describe 'Test Problem Handling' do
       _(created['description']).must_equal @prob_data['description']
       _(created['latitude']).must_equal @prob_data['latitude']
       _(created['longitude']).must_equal @prob_data['longitude']
-      _(created['date']).must_equal @prob_data['date']
     end
 
     it 'BAD: should not create problems with illegal attributes' do

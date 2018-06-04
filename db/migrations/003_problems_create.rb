@@ -11,7 +11,6 @@ Sequel.migration do
       String :description, null: false
       String :latitude_secure, null: false
       String :longitude_secure, null: false
-      String :date, null: false
 
       DateTime :created_at
       DateTime :updated_at
