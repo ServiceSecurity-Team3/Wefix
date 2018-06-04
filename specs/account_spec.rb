@@ -39,7 +39,6 @@ describe 'Test Document Handling' do
       created = JSON.parse(last_response.body)['data']
       account = Wefix::Account.first
 
-      _(created['id']).must_equal account.id
       _(created['username']).must_equal @account_data['username']
       _(created['email']).must_equal @account_data['email']
       _(account.password?(@account_data['password'])).must_equal true
@@ -70,9 +69,10 @@ describe 'Test Document Handling' do
       _(last_response.status).must_equal 200
       auth_account = JSON.parse(last_response.body)
       _(last_response.status).must_equal 200
-      _(auth_account['username'].must_equal(@account_data['username']))
-      _(auth_account['email'].must_equal(@account_data['email']))
-      _(auth_account['id'].must_be_nil)
+      account_response = auth_account['account']
+      _(account_response['username'].must_equal(@account_data['username']))
+      _(account_response['email'].must_equal(@account_data['email']))
+      _(account_response['id'].must_be_nil)
     end
 
     it 'BAD: should not authenticate invalid password' do
