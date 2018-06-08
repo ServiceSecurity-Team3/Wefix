@@ -22,7 +22,7 @@ module Wefix
       verification_url = registration['verification_url']
 
       <<~END_EMAIL
-        <H1>Credent Registration Received<H1>
+        <H1>Wefix Registration Received<H1>
         <p>Please <a href=\"#{verification_url}\">click here</a> to validate your
         email. You will be asked to set a password to activate your account.</p>
       END_EMAIL
@@ -37,8 +37,8 @@ module Wefix
           personalizations: [{
             to: [{ 'email' => registration['email'] }]
           }],
-          from: { 'email' => 'noreply@credent.com' },
-          subject: 'Credent Registration Verification',
+          from: { 'email' => 'noreply@wefix.com' },
+          subject: 'Wefix Registration Verification',
           content: [
             { type: 'text/html',
               value: email_body(registration) }
