@@ -6,6 +6,10 @@ require 'json'
 module Wefix
   # Models a registered account
   class Account < Sequel::Model
+    plugin :single_table_inheritance, :type,
+           model_map: { 'email' => 'Wefix::EmailAccount',
+                        'sso'   => 'Wefix::SsoAccount' }
+
     one_to_many :owned_groups, class: :'Wefix::Group', key: :owner_id
     plugin :association_dependencies, owned_groups: :destroy
 
@@ -23,20 +27,10 @@ module Wefix
       owned_groups + collaborations
     end
 
-    def password=(new_password)
-      self.salt = SecureDB.new_salt
-      self.password_hash = SecureDB.hash_password(salt, new_password)
-    end
-
-    def password?(try_password)
-      try_hashed = SecureDB.hash_password(salt, try_password)
-      try_hashed == password_hash
-    end
-
     def to_json(options = {})
       JSON(
         {
-          type: 'account',
+          type: 'type',
           username: username,
           email: email
         }, options

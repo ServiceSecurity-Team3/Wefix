@@ -20,7 +20,7 @@ CONTRIB_INFO = YAML.load_file("#{DIR}/groups_collaborators_seed.yml")
 
 def create_accounts
   ACCOUNTS_INFO.each do |account_info|
-    Wefix::Account.create(account_info)
+    Wefix::EmailAccount.create(account_info)
   end
 end
 

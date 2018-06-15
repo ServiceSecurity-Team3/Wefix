@@ -3,6 +3,9 @@
 require 'json'
 require 'sequel'
 require_relative 'init'
+
+require_relative 'account/account'
+
 module Wefix
   # Models a Group
   class Group < Sequel::Model
