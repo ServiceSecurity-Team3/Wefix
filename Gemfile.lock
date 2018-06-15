@@ -69,11 +69,11 @@ GEM
     ruby_http_client (3.3.0)
     sendgrid-ruby (5.2.0)
       ruby_http_client (~> 3.2)
-      sinatra (>= 1.4.7, < 3)
+      sinatra ~> 2.0.2
     sequel (5.8.0)
     sequel-seed (1.0.0)
       sequel (>= 4.0)
-    sinatra (2.0.1)
+    sinatra ~> 2.0.2
       mustermann (~> 1.0)
       rack (~> 2.0)
       rack-protection (= 2.0.1)
