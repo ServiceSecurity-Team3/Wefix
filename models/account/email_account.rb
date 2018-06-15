@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Credence
+module Wefix
   # Models an email registered account
   class EmailAccount < Account
     def password=(new_password)
