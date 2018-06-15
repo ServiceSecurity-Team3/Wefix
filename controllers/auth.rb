@@ -6,6 +6,9 @@ module Wefix
   # Web controller for wefix api
   class Api < Roda
     route('auth') do |routing|
+      routing.on 'authenticate' do
+        routing.route('authenticate', 'auth')
+      end
       routing.on 'register' do
         # POST api/v1/auth/register
         routing.post do
