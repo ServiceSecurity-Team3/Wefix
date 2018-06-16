@@ -3,19 +3,20 @@
 require 'roda'
 
 module Wefix
-  # Web controller for wefix api
+  # Web controller for Wefix API
   class Api < Roda
     route('auth') do |routing|
       routing.on 'authenticate' do
         routing.route('authenticate', 'auth')
       end
+
       routing.on 'register' do
         # POST api/v1/auth/register
         routing.post do
-          reg_data = JSON.parse(routing.body.read)
           registration = SignedRequest.new(Api.config)
                                       .parse(request.body.read)
           EmailVerification.new(Api.config).call(registration)
+
           response.status = 201
           { message: 'Verification email sent' }.to_json
         rescue InvalidRegistration => error
