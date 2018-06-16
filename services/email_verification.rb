@@ -19,7 +19,7 @@ module Wefix
     end
 
     def email_body(registration)
-      verification_url = registration['verification_url']
+      verification_url = registration[:verification_url]
 
       <<~END_EMAIL
         <H1>Wefix Registration Received<H1>
@@ -35,7 +35,7 @@ module Wefix
         SENDGRID_URL,
         json: {
           personalizations: [{
-            to: [{ 'email' => registration['email'] }]
+            to: [{ 'email' => registration[:email] }]
           }],
           from: { 'email' => 'noreply@wefix.com' },
           subject: 'Wefix Registration Verification',
