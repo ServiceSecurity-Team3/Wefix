@@ -9,6 +9,42 @@ module Wefix
       @grp_route = "#{@api_root}/groups"
 
       routing.on String do |grp_id|
+
+        # POST api/v1/groups/[grp_id]/problems
+        routing.post "problems" do
+          account = Account.first(username: @auth_account["username"])
+          prb_data = JSON.parse(routing.body.read)
+
+          new_prb = Wefix::CreateProblemForGroup.call(
+            group_id: grp_id, problem_data: prb_data,
+          )
+
+          raise("Could not save problem") unless new_prb.save
+          response.status = 201
+          response["Location"] = "#{@grp_route}/#{grp_id}/problems/#{new_prb.id}"
+          {message: "Problem saved", data: new_prb}.to_json
+        rescue Sequel::MassAssignmentRestriction
+          routing.halt 400, {message: "Illegal Request"}.to_json
+        rescue StandardError => error
+          routing.halt 500, {message: error.message}.to_json
+        end
+
+        # POST api/v1/groups/[grp_id]/add_collabotors
+        routing.post "add_collaborator" do
+          data = JSON.parse(routing.body.read)
+          add_collaborator = Wefix::AddCollaboratorToGroup.call(
+            email: data["email"], group_id: grp_id,
+          )
+          raise("Could not add the collaborator") unless add_collaborator.save
+          response.status = 200
+          response["Location"] = "#{@grp_route}/#{grp_id}"
+          {message: "Collaborator added"}.to_json
+        rescue Sequel::MassAssignmentRestriction
+          routing.halt 400, {message: "Illegal Request"}.to_json
+        rescue StandardError => error
+          routing.halt 500, {message: error.message}.to_json
+        end
+
         # GET api/v1/groups/[grp_id]
         routing.get do
           account = Account.first(username: @auth_account["username"])
@@ -49,8 +85,8 @@ module Wefix
         {message: "Group saved", data: new_group}.to_json
       rescue Sequel::MassAssignmentRestriction
         routing.halt 400, {message: "Illegal Request"}.to_json
-        #rescue StandardError => error
-        # routing.halt 500, {message: error.message}.to_json
+      rescue StandardError => error
+        routing.halt 500, {message: error.message}.to_json
       end
     end
   end

@@ -5,9 +5,9 @@ module Wefix
   class AddCollaboratorToGroup
     def self.call(email:, group_id:)
       collaborator = Account.first(email: email)
-      group = Group(id: group_id)
-      return false if group_id.owner.id == collaborator.id
-      group.add_collaborator
+      group = Group.first(id: group_id)
+      return false if group.owner.id == collaborator.id
+      group.add_collaborator(collaborator)
       collaborator
     end
   end
