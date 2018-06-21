@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
-require 'sequel'
-require 'json'
+require "sequel"
+require "json"
+require_relative "../init"
 
 module Wefix
   # Models a registered account
   class Account < Sequel::Model
     plugin :single_table_inheritance, :type,
-           model_map: { 'email' => 'Wefix::EmailAccount',
-                        'sso'   => 'Wefix::SsoAccount' }
+           model_map: {"email" => "Wefix::EmailAccount",
+                       "sso" => "Wefix::SsoAccount"}
 
     one_to_many :owned_groups, class: :'Wefix::Group', key: :owner_id
     plugin :association_dependencies, owned_groups: :destroy
@@ -30,9 +31,9 @@ module Wefix
     def to_json(options = {})
       JSON(
         {
-          type: 'type',
+          type: "type",
           username: username,
-          email: email
+          email: email,
         }, options
       )
     end
