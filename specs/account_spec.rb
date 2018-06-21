@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative './spec_helper'
+require 'json'
 
 describe 'Test Document Handling' do
   include Rack::Test::Methods
@@ -15,7 +16,17 @@ describe 'Test Document Handling' do
       account_data = DATA[:accounts][1]
       account = Wefix::EmailAccount.create(account_data)
 
-      get { '/api/v1/accounts/#{account.username' }
+      credentials = {
+        username: account_data['username'],
+        password: account_data['password']
+      }
+
+      auth_account = Wefix::AuthenticateEmailAccount.call(credentials).to_json
+      @data_user = JSON.parse(auth_account)
+
+      header "AUTHORIZATION", "Bearer #{@data_user['auth_token']}"
+      get  "/api/v1/accounts/#{account.username}"
+
       _(last_response.status).must_equal 200
 
       result = JSON.parse last_response.body
@@ -61,10 +72,15 @@ describe 'Test Document Handling' do
       @account = Wefix::EmailAccount.create(@account_data)
     end
 
-    it 'HAPPY: should authenticate valid credentials' do
+    it 'HAPPY: should authenticate email valid credentials' do
       credentials = { username: @account_data['username'],
                       password: @account_data['password'] }
-      post 'api/v1/auth/authenticate', credentials.to_json, @req_header
+
+      signedData = SignedRequest
+                   .new(Wefix::Api.config)
+                   .sign(credentials)
+            
+      post 'api/v1/auth/authenticate/email_account', signedData.to_json
 
       _(last_response.status).must_equal 200
       auth_account = JSON.parse(last_response.body)
@@ -79,9 +95,11 @@ describe 'Test Document Handling' do
       credentials = { username: @account_data['username'],
                       password: 'fakepassword' }
 
-      assert_output(/invalid/i, '') do
-        post 'api/v1/accounts/authenticate', credentials.to_json, @req_header
-      end
+      signedData = SignedRequest
+                    .new(Wefix::Api.config)
+                    .sign(credentials)
+
+      post 'api/v1/auth/authenticate/email_account', signedData.to_json
 
       result = JSON.parse(last_response.body)
 

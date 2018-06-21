@@ -34,6 +34,16 @@ class SignedRequest
     raise SignatureVerificationFailed
   end
 
+  def sign(object)
+    message = object.to_json
+    sign_key = Base64.strict_decode64(@config.SIGNING_KEY)
+    signer = RbNaCl::SigningKey.new(sign_key)
+    signature_raw = signer.sign(message)
+
+    { data: message,
+      signature: Base64.strict_encode64(signature_raw) }
+  end
+
   private
 
   def verify(signature64, message)
@@ -46,4 +56,5 @@ class SignedRequest
     data = JSON.parse(json)
     Hash[data.map { |k, v| [k.to_sym, v] }]
   end
+
 end
