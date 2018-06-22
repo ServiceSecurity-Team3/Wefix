@@ -24,8 +24,8 @@ describe 'Test Document Handling' do
       auth_account = Wefix::AuthenticateEmailAccount.call(credentials).to_json
       @data_user = JSON.parse(auth_account)
 
-      header "AUTHORIZATION", "Bearer #{@data_user['auth_token']}"
-      get  "/api/v1/accounts/#{account.username}"
+      header 'AUTHORIZATION', "Bearer #{@data_user['auth_token']}"
+      get "/api/v1/accounts/#{account.username}"
 
       _(last_response.status).must_equal 200
 
@@ -76,11 +76,10 @@ describe 'Test Document Handling' do
       credentials = { username: @account_data['username'],
                       password: @account_data['password'] }
 
-      signedData = SignedRequest
-                   .new(Wefix::Api.config)
-                   .sign(credentials)
-            
-      post 'api/v1/auth/authenticate/email_account', signedData.to_json
+      signed_data = SignedRequest
+                    .new(Wefix::Api.config)
+                    .sign(credentials)
+      post 'api/v1/auth/authenticate/email_account', signed_data.to_json
 
       _(last_response.status).must_equal 200
       auth_account = JSON.parse(last_response.body)
@@ -95,11 +94,11 @@ describe 'Test Document Handling' do
       credentials = { username: @account_data['username'],
                       password: 'fakepassword' }
 
-      signedData = SignedRequest
+      signed_data = SignedRequest
                     .new(Wefix::Api.config)
                     .sign(credentials)
 
-      post 'api/v1/auth/authenticate/email_account', signedData.to_json
+      post 'api/v1/auth/authenticate/email_account', signed_data.to_json
 
       result = JSON.parse(last_response.body)
 

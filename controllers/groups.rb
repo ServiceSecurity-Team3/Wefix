@@ -11,7 +11,7 @@ module Wefix
       routing.on String do |grp_id|
         # POST api/v1/groups/[grp_id]/problems
         routing.post 'problems' do
-          account = Account.first(username: @auth_account['username'])
+          Account.first(username: @auth_account['username'])
           prb_data = JSON.parse(routing.body.read)
 
           new_prb = Wefix::CreateProblemForGroup.call(

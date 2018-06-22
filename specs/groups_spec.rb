@@ -9,7 +9,7 @@ describe 'Test Group Handling' do
   before do
     wipe_database
     @account_data = DATA[:accounts][1]
-    user = Wefix::EmailAccount.create(@account_data)
+    Wefix::EmailAccount.create(@account_data)
     credentials = {
       username: @account_data['username'],
       password: @account_data['password']
@@ -28,7 +28,7 @@ describe 'Test Group Handling' do
       owner_id: account.id, group_data: DATA[:groups][1]
     )
 
-    header "AUTHORIZATION", "Bearer #{@data_user['auth_token']}"
+    header 'AUTHORIZATION', "Bearer #{@data_user['auth_token']}"
     get 'api/v1/groups', @req_header
 
     _(last_response.status).must_equal 200
@@ -42,9 +42,9 @@ describe 'Test Group Handling' do
     group = JSON.parse(Wefix::CreateGroupForOwner.call(
       owner_id: account.id, group_data: DATA[:groups][0]
     ).to_json)
-    id = group["id"]
+    id = group['id']
 
-    header "AUTHORIZATION", "Bearer #{@data_user['auth_token']}"
+    header 'AUTHORIZATION', "Bearer #{@data_user['auth_token']}"
     get "/api/v1/groups/#{id}"
     _(last_response.status).must_equal 200
 
@@ -65,7 +65,7 @@ describe 'Test Group Handling' do
     end
 
     it 'HAPPY: should be able to create new groups' do
-      header "AUTHORIZATION", "Bearer #{@data_user['auth_token']}"
+      header 'AUTHORIZATION', "Bearer #{@data_user['auth_token']}"
       post 'api/v1/groups', @group_data.to_json
 
       _(last_response.status).must_equal 201
@@ -83,7 +83,7 @@ describe 'Test Group Handling' do
       bad_data = @group_data.clone
       bad_data['created_at'] = '1900-01-01'
 
-      header "AUTHORIZATION", "Bearer #{@data_user['auth_token']}"
+      header 'AUTHORIZATION', "Bearer #{@data_user['auth_token']}"
       post 'api/v1/groups', bad_data.to_json
 
       _(last_response.status).must_equal 400
