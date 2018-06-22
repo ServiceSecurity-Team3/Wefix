@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require "rbnacl/libsodium"
-require "base64"
-require_relative "init"
+require 'rbnacl/libsodium'
+require 'base64'
+require_relative 'init'
 
 # Parses Json information as needed
 class SignedRequest
@@ -22,14 +22,14 @@ class SignedRequest
     signing_key = RbNaCl::SigningKey.generate
     verify_key = signing_key.verify_key
 
-    {signing_key: Base64.strict_encode64(signing_key),
-     verify_key: Base64.strict_encode64(verify_key)}
+    { signing_key: Base64.strict_encode64(signing_key),
+      verify_key: Base64.strict_encode64(verify_key) }
   end
 
   def parse(signed_json)
     parsed = JSON.parse(signed_json)
-    raise unless verify(parsed["signature"], parsed["data"])
-    symbolized_hash_keys(parsed["data"])
+    raise unless verify(parsed['signature'], parsed['data'])
+    symbolized_hash_keys(parsed['data'])
   rescue StandardError
     raise SignatureVerificationFailed
   end
@@ -56,5 +56,4 @@ class SignedRequest
     data = JSON.parse(json)
     Hash[data.map { |k, v| [k.to_sym, v] }]
   end
-
 end

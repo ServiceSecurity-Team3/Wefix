@@ -9,7 +9,7 @@ describe 'Test Problem Handling' do
     wipe_database
 
     @account_data = DATA[:accounts][1]
-    user = Wefix::EmailAccount.create(@account_data)
+    Wefix::EmailAccount.create(@account_data)
     credentials = {
       username: @account_data['username'],
       password: @account_data['password']
@@ -37,7 +37,7 @@ describe 'Test Problem Handling' do
     end
 
     it 'HAPPY: should be able to get list of all problems' do
-      header "AUTHORIZATION", "Bearer #{@data_user['auth_token']}"
+      header 'AUTHORIZATION', "Bearer #{@data_user['auth_token']}"
       get "api/v1/groups/#{@grp.id}/problems"
       _(last_response.status).must_equal 200
 
@@ -49,7 +49,7 @@ describe 'Test Problem Handling' do
     it 'HAPPY: should be able to get details of a single problem' do
       prob = Wefix::Problem.first
 
-      header "AUTHORIZATION", "Bearer #{@data_user['auth_token']}"
+      header 'AUTHORIZATION', "Bearer #{@data_user['auth_token']}"
       get "/api/v1/groups/#{@grp.id}/problems/#{prob.id}"
       _(last_response.status).must_equal 200
 
@@ -70,12 +70,10 @@ describe 'Test Problem Handling' do
     before do
       @group = Wefix::Group.first
       @prob_data = DATA[:problems][1]
-
     end
 
     it 'HAPPY: should be able to create new problems' do
-
-      header "AUTHORIZATION", "Bearer #{@data_user['auth_token']}"
+      header 'AUTHORIZATION', "Bearer #{@data_user['auth_token']}"
       post "api/v1/groups/#{@group.id}/problems",
            @prob_data.to_json
 
@@ -95,7 +93,7 @@ describe 'Test Problem Handling' do
       bad_data = @prob_data.clone
       bad_data['created_at'] = '1900-01-01'
 
-      header "AUTHORIZATION", "Bearer #{@data_user['auth_token']}"
+      header 'AUTHORIZATION', "Bearer #{@data_user['auth_token']}"
       post "api/v1/groups/#{@group.id}/problems",
            bad_data.to_json
 
